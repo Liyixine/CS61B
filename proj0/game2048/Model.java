@@ -1,5 +1,7 @@
 package game2048;
 
+import org.hamcrest.core.Is;
+
 import java.util.Formatter;
 import java.util.Observable;
 
@@ -16,7 +18,8 @@ public class Model extends Observable {
     private int maxScore;
     /** True iff game is ended. */
     private boolean gameOver;
-
+    /* i do not know how to implement the change method in the tile function,so i uses the global variable*/
+    private boolean needChange = false;
     /* Coordinate System: column C, row R of the board (where row 0,
      * column 0 is the lower-left corner of the board) will correspond
      * to board.tile(c, r).  Be careful! It works like (x, y) coordinates.
@@ -113,12 +116,63 @@ public class Model extends Observable {
         // TODO: Modify this.board (and perhaps this.score) to account
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
-
+        board.setViewingPerspective(Side.NORTH);
+        board.setViewingPerspective(side);
+        int size = board.size();
+        int scorechange = 0;
+        for (int i = 0; i < size; i++) {
+            scorechange = MoveOneRow(i) + scorechange;
+        }
+        changed = needChange;
+        score += scorechange;
+        board.setViewingPerspective(Side.NORTH);
         checkGameOver();
         if (changed) {
             setChanged();
         }
         return changed;
+    }
+    /** implement the move of one row and returns the scores */
+    public int MoveOneRow (int i){
+        int scorechange = 0;
+        int size = board.size();
+        boolean[] IsMerge = new boolean[size];
+        for (int j = size-2 ; j >= 0 ; j--) {
+            scorechange += MoveOneTile(i,j,IsMerge);
+        }
+        return scorechange;
+
+    }
+
+    /** in the base that the front tile are used this method,the method can move the tile,returns the scores */
+    public int MoveOneTile (int i,int j,boolean[] IsMerge){
+        int size = board.size();
+        int scorechange = 0;
+        if(board.tile(i,j) == null){
+            return 0;
+        }
+        Tile nowT = board.tile(i,j);
+        int value = board.tile(i,j).value();
+        int movestep = 0;
+        for (int k = j+1; k < size; k++) {
+            Tile t = board.tile(i,k);
+            if(t == null){
+                movestep += 1;
+                continue;
+            }
+            if(t.value() == value && !IsMerge[k]){
+                movestep += 1;
+                scorechange += 2*value;
+                IsMerge[k] = true;
+                continue;
+            }
+            break;
+        }
+        if(!(movestep == 0)){
+            needChange = true;
+        }
+        board.move(i,j+movestep,nowT);
+        return scorechange;
     }
 
     /** Checks if the game is over and sets the gameOver variable
@@ -138,6 +192,14 @@ public class Model extends Observable {
      * */
     public static boolean emptySpaceExists(Board b) {
         // TODO: Fill in this function.
+        int size = b.size();
+        for (int i = 0;i < size;i++){
+            for (int j = 0;j<size;j++ ){
+                if(b.tile(i,j) == null){
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -148,6 +210,17 @@ public class Model extends Observable {
      */
     public static boolean maxTileExists(Board b) {
         // TODO: Fill in this function.
+        int size = b.size();
+        for (int i = 0;i<size;i++){
+            for (int j = 0;j<size;j++){
+                if(b.tile(i,j) == null){
+                    continue;
+                }
+                if(b.tile(i,j).value() == MAX_PIECE){
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -159,9 +232,50 @@ public class Model extends Observable {
      */
     public static boolean atLeastOneMoveExists(Board b) {
         // TODO: Fill in this function.
+        int size = b.size();
+        if (emptySpaceExists(b)){
+            return  true;
+        }
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if(IsSameValueNear(b,i,j)){
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
+    /** Returns whether the near tile in the board has same value */
+    public static boolean IsSameValueNear (Board b,int i,int j){
+        int value = b.tile(i,j).value();
+        return  IsSameValueOne(b,i,j,i-1,j) || IsSameValueOne(b,i,j,i+1,j) || IsSameValueOne(b,i,j,i,j-1) || IsSameValueOne(b,i,j,i,j+1);
+    }
+
+    public static boolean IsSameValueOne (Board b,int i1,int j1,int i2,int j2){
+        if(IsInborad(b,i1,j1)&&IsInborad(b,i2,j2)){
+            if(b.tile(i1,j1) == null){
+                return false;
+            }
+            if(b.tile(i2,j2) == null){
+                return  false;
+            }
+            if(b.tile(i1,j1).value() == b.tile(i2,j2).value()){
+                return  true;
+            }
+            return false;
+        }
+        return false;
+    }
+
+    /** Returns whether the index of i and j in the borad */
+    public  static boolean IsInborad (Board b ,int i ,int j){
+        int size = b.size();
+        if((i>=0 && i<size) && (j>=0 && j<size)){
+            return true;
+        }
+        return false;
+    }
 
     @Override
      /** Returns the model as a string, used for debugging. */
