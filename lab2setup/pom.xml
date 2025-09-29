@@ -15,6 +15,32 @@
     <artifactId>lab2setup</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <dependencies>
+        <!-- JUnit Jupiter API：用于编写测试的公共 API -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.10.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- JUnit Jupiter Engine：用于运行 JUnit Jupiter 测试的引擎 -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.10.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- JUnit Jupiter Params：用于编写参数化测试的支持库 -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>5.10.2</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
     <build>
         <sourceDirectory>${project.basedir}</sourceDirectory>
         <testSourceDirectory>${project.basedir}</testSourceDirectory>
@@ -38,7 +64,14 @@
                     </compilerArgs>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M5</version>
+            </plugin>
         </plugins>
+
+
     </build>
     
 </project>
