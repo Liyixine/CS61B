@@ -24,10 +24,15 @@ public class AListNoResizing<Item> {
         size = 0;
     }
 
-    /** Inserts X into the back of the list. */
-    public void addLast(Item x) {
+    /**
+     * Inserts X into the back of the list.
+     *
+     * @return
+     */
+    public Object addLast(Item x) {
         items[size] = x;
         size = size + 1;
+        return null;
     }
 
     /** Returns the item from the back of the list. */
