@@ -62,7 +62,9 @@ public class LinkedListDeque<T> implements Iterable<T>, Deque<T> {
      */
     @Override
     public void printDeque() {
-        if (size() == 0) return;
+        if (size() == 0) {
+            return;
+        }
         Node temp = sentinel.next;
         for (int i = 0; i < size() - 1; i++) {
             System.out.print(temp.item + " ");
