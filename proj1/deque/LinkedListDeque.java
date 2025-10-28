@@ -1,11 +1,12 @@
 package deque;
 
+import afu.org.checkerframework.checker.oigj.qual.O;
+
 import java.security.PublicKey;
-import java.util.Deque;
 import java.util.Iterator;
 import java.util.Objects;
 
-public class LinkedListDeque<Item> implements Iterable<Item> {
+public class LinkedListDeque<Item> implements Iterable<Item>, Deque<Item> {
     private class Node {
         public Item item;
         public Node next;
@@ -30,6 +31,7 @@ public class LinkedListDeque<Item> implements Iterable<Item> {
     }
 
     /** Adds x to the first of the Deque*/
+    @Override
     public void addFirst(Item item) {
         sentinel.next = new Node(item, sentinel.next, sentinel);
         sentinel.next.next.prev = sentinel.next;
@@ -37,6 +39,7 @@ public class LinkedListDeque<Item> implements Iterable<Item> {
     }
 
     /** Adds x to the last of the Deque*/
+    @Override
     public void addLast(Item item) {
         sentinel.prev = new Node(item, sentinel, sentinel.prev);
         sentinel.prev.prev.next = sentinel.prev;
@@ -44,19 +47,13 @@ public class LinkedListDeque<Item> implements Iterable<Item> {
     }
 
     /** Returns the size of Deque*/
+    @Override
     public int size() {
         return size;
     }
 
-    /** Returns the true if the Deque is empty*/
-    public boolean isEmpty() {
-        if (size == 0) {
-            return true;
-        }
-        return false;
-    }
-
     /** Prints the Deque*/
+    @Override
     public void printDeque() {
         if(size() == 0) return;
         Node temp = sentinel.next;
@@ -69,6 +66,7 @@ public class LinkedListDeque<Item> implements Iterable<Item> {
     }
 
     /** Deletes the first of the Deque,returns the first, if the item not exists, returns null*/
+    @Override
     public Item removeFirst() {
         if (sentinel.next == sentinel) {
             return null;
@@ -81,6 +79,7 @@ public class LinkedListDeque<Item> implements Iterable<Item> {
     }
 
     /** Deletes the back of the Deque, returns the back item, if the item not exists returns null*/
+    @Override
     public Item removeLast() {
         if (sentinel.prev == sentinel) {
             return null;
@@ -93,6 +92,7 @@ public class LinkedListDeque<Item> implements Iterable<Item> {
     }
 
     /** returns the index item of the Deque, if the items not existed, returns the null*/
+    @Override
     public Item get(int index) {
         if (index < 0 || index >= size()){
             return null;

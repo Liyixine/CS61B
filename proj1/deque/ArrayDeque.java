@@ -2,7 +2,7 @@ package deque;
 
 import java.util.Iterator;
 
-public class ArrayDeque<Item> implements Iterable<Item>{
+public class ArrayDeque<Item> implements Iterable<Item>, Deque<Item>{
     private Item[] items;
     private int capacity;
     private int size;
@@ -33,6 +33,7 @@ public class ArrayDeque<Item> implements Iterable<Item>{
         last = size;
     }
     /** Adds x to the first of the Deque*/
+    @Override
     public void addFirst(Item item) {
         if ((first - 1 + capacity) % capacity == last) {
             resize(items.length * 2);
@@ -43,6 +44,7 @@ public class ArrayDeque<Item> implements Iterable<Item>{
     }
 
     /** Adds x to the last of the Deque*/
+    @Override
     public void addLast(Item item) {
         if ((first - 1 + capacity) % capacity == last) {
             resize(items.length * 2);
@@ -53,19 +55,15 @@ public class ArrayDeque<Item> implements Iterable<Item>{
     }
 
     /** returns the size*/
+    @Override
     public int size() {
         return size;
     }
 
-    /** returns true if the Deque is empty*/
-    public boolean isEmpty() {
-        if (size == 0) {
-            return true;
-        }
-        return false;
-    }
+
 
     /** Prints the Deque*/
+    @Override
     public void printDeque() {
         if (size == 0){
             return;
@@ -78,6 +76,7 @@ public class ArrayDeque<Item> implements Iterable<Item>{
     }
 
     /** Deletes the first of the Deque,returns the first, if the item not exists, returns null*/
+    @Override
     public Item removeFirst() {
         if (first == last) {
             return null;
@@ -92,6 +91,7 @@ public class ArrayDeque<Item> implements Iterable<Item>{
     }
 
     /** Deletes the back of the Deque, returns the back item, if the item not exists returns null*/
+    @Override
     public Item removeLast() {
         if (first == last) {
             return null;
@@ -111,6 +111,7 @@ public class ArrayDeque<Item> implements Iterable<Item>{
     }
 
     /** returns the index item of the Deque, if the items not existed, returns the null*/
+    @Override
     public Item get(int index) {
         if (index < 0 || index >= size()) {
             return null;
