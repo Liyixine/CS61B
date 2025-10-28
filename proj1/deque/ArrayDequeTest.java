@@ -50,13 +50,7 @@ public class ArrayDequeTest {
             ad1.addFirst(1);
             ad1.addLast(2);
         }
-        for (int i = 0; i < 10000; i++) {
-            ad1.removeFirst();
-            ad1.removeLast();
-            int size = ad1.size();
-            int capacity = ad1.capacity();
-            System.out.println((double) size / (double) capacity);
-        }
+
     }
 
     @Test
@@ -87,6 +81,7 @@ public class ArrayDequeTest {
         }
         int i = 0;
         for (int x : ad1) {
+            Integer y = x;
             assertEquals(i, x);
             i++;
         }

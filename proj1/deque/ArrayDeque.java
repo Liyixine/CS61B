@@ -23,8 +23,8 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
     /**
      * resize the items
      */
-    public void resize(int capacity) {
-        T[] a = (T[]) new Object[capacity];
+    private void resize(int cap) {
+        T[] a = (T[]) new Object[cap];
         if (last < first) {
             System.arraycopy(items, first, a, 0, this.capacity - first);
             System.arraycopy(items, 0, a, this.capacity - first, last);
@@ -32,7 +32,7 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
             System.arraycopy(items, first, a, 0, last - first);
         }
         items = a;
-        this.capacity = capacity;
+        this.capacity = cap;
         first = 0;
         last = size;
     }
@@ -124,7 +124,7 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
     /**
      * returns the lengths just for test
      */
-    public int capacity() {
+    private int capacity() {
         return items.length;
     }
 
@@ -149,17 +149,15 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
 
 
     private class ArrayDequeIterator implements Iterator<T> {
-        private int position;
         private int hasIt;
 
-        public ArrayDequeIterator() {
-            position = first;
+        ArrayDequeIterator() {
             hasIt = 0;
         }
 
         @Override
         public boolean hasNext() {
-            if (hasIt >= size) {
+            if (hasIt < size) {
                 return true;
             }
             return false;
@@ -167,8 +165,7 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
 
         @Override
         public T next() {
-            T i = items[position];
-            position = (position + 1) % capacity;
+            T i = get(hasIt);
             hasIt++;
             return i;
         }
