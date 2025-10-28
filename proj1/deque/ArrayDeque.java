@@ -2,14 +2,16 @@ package deque;
 
 import java.util.Iterator;
 
-public class ArrayDeque<Item> implements Iterable<Item>, Deque<Item>{
+public class ArrayDeque<Item> implements Iterable<Item>, Deque<Item> {
     private Item[] items;
     private int capacity;
     private int size;
     private int first;
     private int last;
 
-    /**Creates the empty ArrayDeque*/
+    /**
+     * Creates the empty ArrayDeque
+     */
     public ArrayDeque() {
         items = (Item[]) new Object[8];
         size = 0;
@@ -18,7 +20,9 @@ public class ArrayDeque<Item> implements Iterable<Item>, Deque<Item>{
         capacity = 8;
     }
 
-    /** resize the items*/
+    /**
+     * resize the items
+     */
     public void resize(int capacity) {
         Item[] a = (Item[]) new Object[capacity];
         if (last < first) {
@@ -32,7 +36,10 @@ public class ArrayDeque<Item> implements Iterable<Item>, Deque<Item>{
         first = 0;
         last = size;
     }
-    /** Adds x to the first of the Deque*/
+
+    /**
+     * Adds x to the first of the Deque
+     */
     @Override
     public void addFirst(Item item) {
         if ((first - 1 + capacity) % capacity == last) {
@@ -43,7 +50,9 @@ public class ArrayDeque<Item> implements Iterable<Item>, Deque<Item>{
         size++;
     }
 
-    /** Adds x to the last of the Deque*/
+    /**
+     * Adds x to the last of the Deque
+     */
     @Override
     public void addLast(Item item) {
         if ((first - 1 + capacity) % capacity == last) {
@@ -54,28 +63,33 @@ public class ArrayDeque<Item> implements Iterable<Item>, Deque<Item>{
         size++;
     }
 
-    /** returns the size*/
+    /**
+     * returns the size
+     */
     @Override
     public int size() {
         return size;
     }
 
 
-
-    /** Prints the Deque*/
+    /**
+     * Prints the Deque
+     */
     @Override
     public void printDeque() {
-        if (size == 0){
+        if (size == 0) {
             return;
         }
-        for (int i = first; i != last ;i = (i + 1) % capacity) {
+        for (int i = first; i != last; i = (i + 1) % capacity) {
             System.out.print(items[i] + " ");
         }
         System.out.print("\n");
         return;
     }
 
-    /** Deletes the first of the Deque,returns the first, if the item not exists, returns null*/
+    /**
+     * Deletes the first of the Deque,returns the first, if the item not exists, returns null
+     */
     @Override
     public Item removeFirst() {
         if (first == last) {
@@ -90,7 +104,9 @@ public class ArrayDeque<Item> implements Iterable<Item>, Deque<Item>{
         return i;
     }
 
-    /** Deletes the back of the Deque, returns the back item, if the item not exists returns null*/
+    /**
+     * Deletes the back of the Deque, returns the back item, if the item not exists returns null
+     */
     @Override
     public Item removeLast() {
         if (first == last) {
@@ -105,12 +121,16 @@ public class ArrayDeque<Item> implements Iterable<Item>, Deque<Item>{
         return i;
     }
 
-    /** returns the lengths just for test*/
+    /**
+     * returns the lengths just for test
+     */
     public int capacity() {
         return items.length;
     }
 
-    /** returns the index item of the Deque, if the items not existed, returns the null*/
+    /**
+     * returns the index item of the Deque, if the items not existed, returns the null
+     */
     @Override
     public Item get(int index) {
         if (index < 0 || index >= size()) {
@@ -120,7 +140,9 @@ public class ArrayDeque<Item> implements Iterable<Item>, Deque<Item>{
         return items[i];
     }
 
-    /** returns an iterator*/
+    /**
+     * returns an iterator
+     */
     public Iterator<Item> iterator() {
         return new ArrayDequeIterator();
     }

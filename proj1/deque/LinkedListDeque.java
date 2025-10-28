@@ -1,16 +1,13 @@
 package deque;
 
-import afu.org.checkerframework.checker.oigj.qual.O;
-
-import java.security.PublicKey;
 import java.util.Iterator;
-import java.util.Objects;
+
 
 public class LinkedListDeque<Item> implements Iterable<Item>, Deque<Item> {
     private class Node {
-        public Item item;
-        public Node next;
-        public Node prev;
+        private Item item;
+        private Node next;
+        private Node prev;
 
         public Node(Item i, Node next, Node prev) {
             this.item = i;
@@ -22,7 +19,9 @@ public class LinkedListDeque<Item> implements Iterable<Item>, Deque<Item> {
     private Node sentinel;
     private int size;
 
-    /** create an empty LinkedListDeque*/
+    /**
+     * create an empty LinkedListDeque
+     */
     public LinkedListDeque() {
         sentinel = new Node(null, null, null);
         sentinel.next = sentinel;
@@ -30,7 +29,9 @@ public class LinkedListDeque<Item> implements Iterable<Item>, Deque<Item> {
         size = 0;
     }
 
-    /** Adds x to the first of the Deque*/
+    /**
+     * Adds x to the first of the Deque
+     */
     @Override
     public void addFirst(Item item) {
         sentinel.next = new Node(item, sentinel.next, sentinel);
@@ -38,7 +39,9 @@ public class LinkedListDeque<Item> implements Iterable<Item>, Deque<Item> {
         size += 1;
     }
 
-    /** Adds x to the last of the Deque*/
+    /**
+     * Adds x to the last of the Deque
+     */
     @Override
     public void addLast(Item item) {
         sentinel.prev = new Node(item, sentinel, sentinel.prev);
@@ -46,16 +49,20 @@ public class LinkedListDeque<Item> implements Iterable<Item>, Deque<Item> {
         size += 1;
     }
 
-    /** Returns the size of Deque*/
+    /**
+     * Returns the size of Deque
+     */
     @Override
     public int size() {
         return size;
     }
 
-    /** Prints the Deque*/
+    /**
+     * Prints the Deque
+     */
     @Override
     public void printDeque() {
-        if(size() == 0) return;
+        if (size() == 0) return;
         Node temp = sentinel.next;
         for (int i = 0; i < size() - 1; i++) {
             System.out.print(temp.item + " ");
@@ -65,7 +72,9 @@ public class LinkedListDeque<Item> implements Iterable<Item>, Deque<Item> {
         System.out.print("\n");
     }
 
-    /** Deletes the first of the Deque,returns the first, if the item not exists, returns null*/
+    /**
+     * Deletes the first of the Deque,returns the first, if the item not exists, returns null
+     */
     @Override
     public Item removeFirst() {
         if (sentinel.next == sentinel) {
@@ -78,7 +87,9 @@ public class LinkedListDeque<Item> implements Iterable<Item>, Deque<Item> {
         return item;
     }
 
-    /** Deletes the back of the Deque, returns the back item, if the item not exists returns null*/
+    /**
+     * Deletes the back of the Deque, returns the back item, if the item not exists returns null
+     */
     @Override
     public Item removeLast() {
         if (sentinel.prev == sentinel) {
@@ -91,10 +102,12 @@ public class LinkedListDeque<Item> implements Iterable<Item>, Deque<Item> {
         return item;
     }
 
-    /** returns the index item of the Deque, if the items not existed, returns the null*/
+    /**
+     * returns the index item of the Deque, if the items not existed, returns the null
+     */
     @Override
     public Item get(int index) {
-        if (index < 0 || index >= size()){
+        if (index < 0 || index >= size()) {
             return null;
         }
         Node temp = sentinel.next;
@@ -104,7 +117,9 @@ public class LinkedListDeque<Item> implements Iterable<Item>, Deque<Item> {
         return temp.item;
     }
 
-    /** the help method that returns the item with  index distance of the temp */
+    /**
+     * the help method that returns the item with  index distance of the temp
+     */
     private Item getRecursiveHelp(int index, Node temp) {
         if (index == 0) {
             return temp.item;
@@ -112,15 +127,19 @@ public class LinkedListDeque<Item> implements Iterable<Item>, Deque<Item> {
         return getRecursiveHelp(index - 1, temp.next);
     }
 
-    /** returns the index item of the Deque, if the items not existed, returns the null*/
+    /**
+     * returns the index item of the Deque, if the items not existed, returns the null
+     */
     public Item getRecursive(int index) {
-        if (index < 0 || index >= size()){
+        if (index < 0 || index >= size()) {
             return null;
         }
         return getRecursiveHelp(index, sentinel.next);
     }
 
-    /** returns an iterator*/
+    /**
+     * returns an iterator
+     */
     public Iterator<Item> iterator() {
         return new LinkedListDequeIterator();
     }
