@@ -102,4 +102,17 @@ public class ArrayDequeTest {
         assertFalse(ad1.equals(ad2));
         assertFalse(ad1.equals(null));
     }
+
+    @Test
+    public void equalsTest2() {
+        ArrayDeque<Integer> ad1 = new ArrayDeque<>();
+        LinkedListDeque<Integer> lld1 = new LinkedListDeque<>();
+        for (int i = 129; i < 1000; i++) {
+            ad1.addLast(i);
+            lld1.addLast(i);
+        }
+        assertTrue(ad1.equals(lld1));
+        ad1.removeLast();
+        assertFalse(ad1.equals(lld1));
+    }
 }
