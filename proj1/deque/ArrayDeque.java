@@ -2,8 +2,8 @@ package deque;
 
 import java.util.Iterator;
 
-public class ArrayDeque<Item> implements Iterable<Item>, Deque<Item> {
-    private Item[] items;
+public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
+    private T[] items;
     private int capacity;
     private int size;
     private int first;
@@ -13,7 +13,7 @@ public class ArrayDeque<Item> implements Iterable<Item>, Deque<Item> {
      * Creates the empty ArrayDeque
      */
     public ArrayDeque() {
-        items = (Item[]) new Object[8];
+        items = (T[]) new Object[8];
         size = 0;
         first = 0;
         last = 0;
@@ -24,7 +24,7 @@ public class ArrayDeque<Item> implements Iterable<Item>, Deque<Item> {
      * resize the items
      */
     public void resize(int capacity) {
-        Item[] a = (Item[]) new Object[capacity];
+        T[] a = (T[]) new Object[capacity];
         if (last < first) {
             System.arraycopy(items, first, a, 0, this.capacity - first);
             System.arraycopy(items, 0, a, this.capacity - first, last);
@@ -41,7 +41,7 @@ public class ArrayDeque<Item> implements Iterable<Item>, Deque<Item> {
      * Adds x to the first of the Deque
      */
     @Override
-    public void addFirst(Item item) {
+    public void addFirst(T item) {
         if ((first - 1 + capacity) % capacity == last) {
             resize(items.length * 2);
         }
@@ -54,7 +54,7 @@ public class ArrayDeque<Item> implements Iterable<Item>, Deque<Item> {
      * Adds x to the last of the Deque
      */
     @Override
-    public void addLast(Item item) {
+    public void addLast(T item) {
         if ((first - 1 + capacity) % capacity == last) {
             resize(items.length * 2);
         }
@@ -91,14 +91,14 @@ public class ArrayDeque<Item> implements Iterable<Item>, Deque<Item> {
      * Deletes the first of the Deque,returns the first, if the item not exists, returns null
      */
     @Override
-    public Item removeFirst() {
+    public T removeFirst() {
         if (first == last) {
             return null;
         }
         if (size < items.length / 4 && items.length > 16) {
             resize(items.length / 2);
         }
-        Item i = items[first];
+        T i = items[first];
         first = (first + 1) % capacity;
         size--;
         return i;
@@ -108,7 +108,7 @@ public class ArrayDeque<Item> implements Iterable<Item>, Deque<Item> {
      * Deletes the back of the Deque, returns the back item, if the item not exists returns null
      */
     @Override
-    public Item removeLast() {
+    public T removeLast() {
         if (first == last) {
             return null;
         }
@@ -116,7 +116,7 @@ public class ArrayDeque<Item> implements Iterable<Item>, Deque<Item> {
             resize(items.length / 2);
         }
         last = (last - 1 + capacity) % capacity;
-        Item i = items[last];
+        T i = items[last];
         size--;
         return i;
     }
@@ -132,7 +132,7 @@ public class ArrayDeque<Item> implements Iterable<Item>, Deque<Item> {
      * returns the index item of the Deque, if the items not existed, returns the null
      */
     @Override
-    public Item get(int index) {
+    public T get(int index) {
         if (index < 0 || index >= size()) {
             return null;
         }
@@ -143,12 +143,12 @@ public class ArrayDeque<Item> implements Iterable<Item>, Deque<Item> {
     /**
      * returns an iterator
      */
-    public Iterator<Item> iterator() {
+    public Iterator<T> iterator() {
         return new ArrayDequeIterator();
     }
 
 
-    private class ArrayDequeIterator implements Iterator<Item> {
+    private class ArrayDequeIterator implements Iterator<T> {
         private int position;
         private int hasIt;
 
@@ -166,8 +166,8 @@ public class ArrayDeque<Item> implements Iterable<Item>, Deque<Item> {
         }
 
         @Override
-        public Item next() {
-            Item i = items[position];
+        public T next() {
+            T i = items[position];
             position = (position + 1) % capacity;
             hasIt++;
             return i;
@@ -186,15 +186,15 @@ public class ArrayDeque<Item> implements Iterable<Item>, Deque<Item> {
             return false;
         }
 
-        ArrayDeque<Item> other = (ArrayDeque<Item>) o;
+        Deque<T> other = (Deque<T>) o;
 
         if (this.size() != other.size()) {
             return false;
         }
 
         int i = 0;
-        for (Item x : this) {
-            Item otherValue = other.get(i);
+        for (T x : this) {
+            T otherValue = other.get(i);
             if (!x.equals(otherValue)) {
                 return false;
             }
